@@ -1,2 +1,3 @@
-# redux-saga-source
-仿 redux-saga
+# redux saga
+
+[redux saga](https://redux-saga-in-chinese.js.org/)
