@@ -1,5 +1,6 @@
-import { all, takeEvery, delay, put } from 'redux-saga/effects'
+import { all, takeEvery, delay, put, cps, call, apply } from 'redux-saga/effects'
 import types from './action-types'
+import {readFile, delayPromise} from '../utils'
 
 // todo:实现delay
 // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -9,7 +10,15 @@ import types from './action-types'
  */
 function * addAsync() {
   console.log('worker saga:', 'addAsync')
+  // todo: cps
+  yield cps(readFile, ['manifest.json']) // 告诉中间件调用node风格的回调函数
+  // todo: call
+  yield call(delayPromise, [1000]) // 以1000为参数继续调用delayPromise方法，一定返回一个promise，等promise完成才会继续执行
+  // todo: apply
+  yield apply({name: 'test'}, delayPromise, [1000])
+  // todo: delay
   yield delay(2000) // 延迟2秒，delay会返回一个promise,执行器会等待promise完成后继续执行
+  // todo: api请求
   let data = {}
   yield fetch('/manifest.json')
     .then(res => res.json())
