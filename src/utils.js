@@ -1,8 +1,10 @@
 export function delayPromise (ms) {
   console.log("delayPromise", this);
-  return new Promise((resolve) =>
+  return new Promise((resolve, reject) =>
     setTimeout(() => {
-      resolve(1);
+      Math.random() > 0.5
+        ? resolve({code: 200, data: {name: 'test'}, success: true, message: null})
+        : reject({code: 0, data: null, success: false, message: 'error'});
     }, ms)
   );
 };
