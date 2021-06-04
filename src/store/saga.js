@@ -1,4 +1,4 @@
-import { all, takeEvery, delay, put, cps, call, apply } from 'redux-saga/effects'
+import { all, takeEvery, delay, put, cps, call, apply, take, select } from 'redux-saga/effects'
 import types from './action-types'
 import {readFile, delayPromise} from '../utils'
 
@@ -57,6 +57,32 @@ function * watchAsyncAdd() {
   // 监听每一个 ASYNC_ADD动作，当这个动作发生的时候，执行启动addAsync这个saga的执行
   // todo: 问题，永远不会结束
   yield takeEvery(types.ASYNC_ADD, addAsync)
+
+  for (let i = 0; i < 3; i++) {
+    // takeEvery是监听每一次， take只监听一次就销毁
+    const action = yield take(types.ASYNC_ADD) // 等待ASYNC_ADD动作的派发
+    console.log(action)
+    yield put({type: types.ADD})
+  }
+}
+
+function * watchAsyncAdd2() {
+  console.log('watcher saga:','watchAsyncAdd2')
+  for (let i = 0; i < 3; i++) {
+    // takeEvery是监听每一次， take只监听一次就销毁
+    const action = yield take(types.ASYNC_ADD) // 等待ASYNC_ADD动作的派发
+    console.log(action)
+    yield put({type: types.ADD})
+  }
+}
+
+function * watchLog() {
+  while(true) {
+    const action = yield take('*')
+    const state = yield select(state => state)
+    console.log('action', action)
+    console.log('state', state)
+  }
 }
 
 /**
@@ -65,6 +91,6 @@ function * watchAsyncAdd() {
 export function * rootSaga() {
   console.log('root saga:','rootSaga start')
   // yield
-  yield all([helloSaga(), watchAsyncAdd()])
+  yield all([helloSaga(), watchAsyncAdd(), watchAsyncAdd2(), watchLog()])
   console.log('root saga:','rootSaga end')
 }
