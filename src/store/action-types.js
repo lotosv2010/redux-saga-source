@@ -1,7 +1,9 @@
 const actionTypes = {
-  ADD: 'ADD',
-  MINUS: 'MINUS',
-  ASYNC_ADD: 'ASYNC_ADD'
+  LOGIN_REQUEST: 'LOGIN_REQUEST', // 发起登录请求
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS', // 登录成功
+  SET_USERNAME: 'SET_USERNAME', // 登录成功之后把用户名设置到localStorage
+  LOGIN_ERROR: 'LOGIN_ERROR', // 登录失败
+  LOGOUT: 'LOGOUT' // 退出
 }
 /**
  * dispatch(ASYNC_ADD)派发给仓库

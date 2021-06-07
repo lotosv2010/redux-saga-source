@@ -1,11 +1,14 @@
 import types from '../action-types'
-const initialState = {number: 0}
+const initialState = {
+  username: null,
+  error: null
+}
 export default function counter(state = initialState, {type, payload}) {
   switch (type) {
-    case types.ADD:
-      return {...state, number:state.number + 1, ...payload}
-    case types.MINUS:
-      return {...state, number:state.number - 1, ...payload}
+    case types.LOGIN_ERROR:
+      return {...state, error: payload.error, username: null}
+    case types.SET_USERNAME:
+      return {...state, username: payload.username, error: null}
     default:
       return state
   }

@@ -7,12 +7,5 @@ import {rootSaga} from './saga'
 const sagaMiddleware = createSagaMiddleware()
 const store = applyMiddleware(sagaMiddleware)(createStore)(reducer)
 
-// todo 实现 sagaMiddleware.run
-// function run(rootSaga) {
-//   const it = rootSaga()
-//   it.next()
-// }
-// run(rootSaga)
-
 sagaMiddleware.run(rootSaga)
 export default store
